@@ -152,6 +152,7 @@ class Maze:
         self.__draw_cells()
         self.__break_entrance_and_exit()
         self.__break_walls(0, 0)
+        self.__reset_cells_visited()
 
     def __draw_cells(self):
         for row in self.__cells:
@@ -229,3 +230,8 @@ class Maze:
 
             # move to the next cell and continue breaking walls
             self.__break_walls(next_index[0], next_index[1])
+
+    def __reset_cells_visited(self):
+        for row in self.__cells:
+            for cell in row:
+                cell.visited = False
