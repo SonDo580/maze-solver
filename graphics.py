@@ -1,4 +1,5 @@
 import time
+import random
 from tkinter import Tk, BOTH, Canvas
 
 BG_COLOR = 'white'
@@ -67,6 +68,7 @@ class Cell:
         self.has_top_wall = True
         self.has_bottom_wall = True
         self.__x1 = x1
+        self.visited = False
         self.__x2 = x2
         self.__y1 = y1
         self.__y2 = y2
@@ -149,6 +151,7 @@ class Maze:
 
         self.__draw_cells()
         self.__break_entrance_and_exit()
+        self.__break_walls(0, 0)
 
     def __draw_cells(self):
         for row in self.__cells:
@@ -172,3 +175,57 @@ class Maze:
 
         self.__draw_cell(entrance_cell)
         self.__draw_cell(exit_cell)
+
+    # row, col: indexes of current cell
+    def __break_walls(self, row, col):
+        self.__cells[row][col].visited = True
+        while True:
+            next_indexes = []
+
+            # move left
+            if col > 0 and not self.__cells[row][col - 1].visited:
+                next_indexes.append((row, col - 1))
+
+            # move right
+            if col < self.__num_cols - 1 and not self.__cells[row][col + 1].visited:
+                next_indexes.append((row, col + 1))
+
+            # move up
+            if row > 0 and not self.__cells[row - 1][col].visited:
+                next_indexes.append((row - 1, col))
+
+            # move down
+            if row < self.__num_rows - 1 and not self.__cells[row + 1][col].visited:
+                next_indexes.append((row + 1, col))
+
+            # no where to go from here
+            if len(next_indexes) == 0:
+                self.__draw_cell(self.__cells[row][col])
+                return
+
+            # randomly choose a direction
+            next_index = next_indexes[random.randrange(len(next_indexes))]
+
+            # remove wall between current cell and next cell
+            # move left
+            if next_index[1] == col - 1:
+                self.__cells[row][col].has_left_wall = False
+                self.__cells[row][col - 1].has_right_wall = False
+
+            # move right
+            if next_index[1] == col + 1:
+                self.__cells[row][col].has_right_wall = False
+                self.__cells[row][col + 1].has_left_wall = False
+
+            # move up
+            if next_index[0] == row - 1:
+                self.__cells[row][col].has_top_wall = False
+                self.__cells[row - 1][col].has_bottom_wall = False
+
+            # move down
+            if next_index[0] == row + 1:
+                self.__cells[row][col].has_bottom_wall = False
+                self.__cells[row + 1][col].has_top_wall = False
+
+            # move to the next cell and continue breaking walls
+            self.__break_walls(next_index[0], next_index[1])
