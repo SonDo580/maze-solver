@@ -133,13 +133,27 @@ class Maze:
                 self.__cells[i].append(new_cell)
 
         self.__draw_cells()
+        self.__break_entrance_and_exit()
 
     def __draw_cells(self):
         for row in self.__cells:
             for cell in row:
-                cell.draw()
-                self.__animate()
+                self.__draw_cell(cell)
+
+    def __draw_cell(self, cell):
+        cell.draw()
+        self.__animate()
 
     def __animate(self):
         self.__window.redraw()
-        time.sleep(0.05)
+        time.sleep(0.01)
+
+    def __break_entrance_and_exit(self):
+        entrance_cell = self.__cells[0][0]
+        exit_cell = self.__cells[self.__num_rows-1][self.__num_cols-1]
+
+        entrance_cell.has_top_wall = False
+        exit_cell.has_bottom_wall = False
+
+        self.__draw_cell(entrance_cell)
+        self.__draw_cell(exit_cell)
