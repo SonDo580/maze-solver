@@ -153,6 +153,7 @@ class Maze:
         self.__break_entrance_and_exit()
         self.__break_walls(0, 0)
         self.__reset_cells_visited()
+        self.__solve(0, 0)
 
     def __draw_cells(self):
         for row in self.__cells:
@@ -235,3 +236,64 @@ class Maze:
         for row in self.__cells:
             for cell in row:
                 cell.visited = False
+
+    def __solve(self, row, col):
+        self.__animate()
+
+        current_cell = self.__cells[row][col]
+        current_cell.visited = True
+
+        # current cell is exit cell
+        if row == self.__num_rows - 1 and col == self.__num_cols - 1:
+            return True
+
+        # move left
+        if col > 0:
+            left_cell = self.__cells[row][col - 1]
+
+            if not current_cell.has_left_wall and not left_cell.visited:
+                current_cell.draw_move(left_cell)
+
+                if self.__solve(row, col - 1):
+                    return True
+
+                current_cell.draw_move(left_cell, undo=True)
+
+        # move right
+        if col < self.__num_cols - 1:
+            right_cell = self.__cells[row][col + 1]
+
+            if not current_cell.has_right_wall and not right_cell.visited:
+                current_cell.draw_move(right_cell)
+
+                if self.__solve(row, col + 1):
+                    return True
+
+                current_cell.draw_move(right_cell, undo=True)
+
+        # move up
+        if row > 0:
+            top_cell = self.__cells[row - 1][col]
+
+            if not current_cell.has_top_wall and not top_cell.visited:
+                current_cell.draw_move(top_cell)
+
+                if self.__solve(row - 1, col):
+                    return True
+
+                current_cell.draw_move(top_cell, undo=True)
+
+        # move down
+        if row < self.__num_rows - 1:
+            bottom_cell = self.__cells[row + 1][col]
+
+            if not current_cell.has_bottom_wall and not bottom_cell.visited:
+                current_cell.draw_move(bottom_cell)
+
+                if self.__solve(row + 1, col):
+                    return True
+
+                current_cell.draw_move(bottom_cell, undo=True)
+
+        # none of the directions worked out
+        return False
