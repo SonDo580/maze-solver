@@ -37,19 +37,16 @@ class Window:
         line.draw(self.__canvas, color)
 
 
-# x = 0: left of window
-# y = 0: top of window
 class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
 
-# Start and End are Point instances
 class Line:
-    def __init__(self, start, end):
-        self.__start = start
-        self.__end = end
+    def __init__(self, start_point, end_point):
+        self.__start = start_point
+        self.__end = end_point
 
     def draw(self, canvas, color):
         canvas.create_line(self.__start.x, self.__start.y,

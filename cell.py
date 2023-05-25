@@ -1,20 +1,18 @@
 from graphics import *
 
 
-# x1, y1: top-left
-# x2, y2: bottom-right
 class Cell:
-    def __init__(self, x1, y1, x2, y2, window):
+    def __init__(self, left_x, top_y, right_x, bottom_y, window):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
         self.has_bottom_wall = True
-        self.__x1 = x1
-        self.visited = False
-        self.__x2 = x2
-        self.__y1 = y1
-        self.__y2 = y2
+        self.__x1 = left_x
+        self.__x2 = right_x
+        self.__y1 = top_y
+        self.__y2 = bottom_y
         self.__window = window
+        self.visited = False
 
     def draw(self):
         top_left = Point(self.__x1, self.__y1)

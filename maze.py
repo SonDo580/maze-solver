@@ -7,19 +7,18 @@ CREATE_SLEEP_TIME = 0.01
 SOLVE_SLEEP_TIME = 0.1
 
 
-# x1, y1: top-left corner
 class Maze:
     def __init__(
         self,
-        x1,
-        y1,
+        left_x_maze,
+        top_y_maze,
         num_rows,
         num_cols,
         cell_size,
         window,
     ):
-        self.__x1 = x1
-        self.__y1 = y1
+        self.__x1 = left_x_maze
+        self.__y1 = top_y_maze
         self.__num_rows = num_rows
         self.__num_cols = num_cols
         self.__cell_size = cell_size
