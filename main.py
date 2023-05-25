@@ -1,4 +1,5 @@
-from graphics import Window, Maze
+from graphics import Window
+from maze import Maze
 
 WINDOW_WIDTH = 900
 WINDOW_HEIGHT = 700
@@ -14,9 +15,7 @@ num_cols = (WINDOW_WIDTH - 2 * LEFT_EDGE) // CELL_SIZE
 
 def main():
     window = Window(WINDOW_WIDTH, WINDOW_HEIGHT)
-
     Maze(LEFT_EDGE, TOP_EDGE, num_rows, num_cols, CELL_SIZE, window)
-
     window.wait_for_close()
 
 
