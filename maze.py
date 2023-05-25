@@ -3,7 +3,8 @@ import random
 
 from cell import Cell
 
-SLEEP_TIME = 0.05
+CREATE_SLEEP_TIME = 0.01
+SOLVE_SLEEP_TIME = 0.1
 
 
 # x1, y1: top-left corner
@@ -53,11 +54,11 @@ class Maze:
 
     def __draw_cell(self, cell):
         cell.draw()
-        self.__animate()
+        self.__animate(CREATE_SLEEP_TIME)
 
-    def __animate(self):
+    def __animate(self, sleep_time):
         self.__window.redraw()
-        time.sleep(SLEEP_TIME)
+        time.sleep(sleep_time)
 
     def __break_entrance_and_exit(self):
         entrance_cell = self.__cells[0][0]
@@ -129,7 +130,7 @@ class Maze:
                 cell.visited = False
 
     def __solve(self, row, col):
-        self.__animate()
+        self.__animate(SOLVE_SLEEP_TIME)
 
         current_cell = self.__cells[row][col]
         current_cell.visited = True
