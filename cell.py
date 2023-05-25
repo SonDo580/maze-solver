@@ -43,7 +43,7 @@ class Cell:
             self.__window.draw_line(
                 Line(bottom_left, bottom_right), BG_COLOR)
 
-    def get_center(self):
+    def __get_center(self):
         return Point((self.__x1 + self.__x2) / 2, (self.__y1 + self.__y2) / 2)
 
     def draw_move(self, to_cell, undo=False):
@@ -52,4 +52,4 @@ class Cell:
             color = UNDO_PATH_COLOR
 
         self.__window.draw_line(
-            Line(self.get_center(), to_cell.get_center()), color)
+            Line(self.__get_center(), to_cell.__get_center()), color)
